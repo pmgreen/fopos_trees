@@ -1,6 +1,6 @@
 # FOPOS trees
 
-Mapping trees at Mountain Lakes Preserve in Princeton, NJ using LiDAR data. The Preserve is managed by Friends of Princeton Open Space (FOPOS). 
+Mapping trees at Mountain Lakes Preserve in Princeton, NJ using [USGS LiDAR data](https://apps.nationalmap.gov/lidar-explorer/#/) (from 2009). The Preserve is managed by [Friends of Princeton Open Space](https://www.fopos.org/) (FOPOS). 
 
 | mountain lakes preserve | riparian east project area |
 | -------- | -------- |
