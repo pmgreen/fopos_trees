@@ -14,10 +14,13 @@ Mapping trees at Mountain Lakes Preserve in Princeton, NJ using [USGS LiDAR data
 | -------- | -------- | -------- |
 <img width="100%" alt="image" src="https://github.com/user-attachments/assets/a9216e47-d35f-47f3-b2d7-b9025e554473" /> | <img width="100%" alt="image" src="https://github.com/user-attachments/assets/c90868ea-6231-499c-a8bc-e26c98a64e2b" /> | <img width="100%" alt="image" src="https://github.com/user-attachments/assets/37a58bf8-8787-4e7f-b882-44eee6cc156d" />
 
-| tree heights | heights to crowns | forested vs. non-forested |
-| -------- | -------- | -------- |
-<img width="100%" alt="image" src="https://github.com/user-attachments/assets/460cf851-2dfc-4e5c-85b1-5607014d218b" /> | <img width="100%" alt="image" src="https://github.com/user-attachments/assets/d01425e3-38c1-4c0a-b4ac-e369dc10e573" /> | <img width="495" alt="image" src="https://github.com/user-attachments/assets/1aadc961-d40f-47f0-839b-388da0f7f00f" />
+| tree heights | forested vs. non-forested |
+| -------- | -------- |
+<img width="100%" alt="image" src="https://github.com/user-attachments/assets/460cf851-2dfc-4e5c-85b1-5607014d218b" /> | <img width="495" alt="image" src="https://github.com/user-attachments/assets/1aadc961-d40f-47f0-839b-388da0f7f00f" />
 
+| crowns to heights | 
+| --------- |
+ | <img width="100%" alt="image" src="https://github.com/user-attachments/assets/d01425e3-38c1-4c0a-b4ac-e369dc10e573" />
 
 
 
