@@ -1,5 +1,5 @@
 # analyze tree heights and density at Mountain Lakes Preserve in Princeton, NJ
-# main reference: https://lab.jonesctr.org/
+# main reference: https://lab.jonesctr.org/ -- straight up copied and adjusted
 # Ubuntu people (lidRviewer dependencies):
 #   sudo apt-get install libsdl2-dev freeglut3-dev
 #   install.packages("lidRviewer", repos = c("https://r-lidar.r-universe.dev", "https://cloud.r-project.org"))   
@@ -13,27 +13,28 @@ library(RCSF)
 library(sf)
 library(terra)
 
-# get LiDAR data downloaded from USGS LiDAR explorer
+# select and download LiDAR from USGS LiDAR explorer
 las <- readLAS("data/USGS_LPC_NJ_MERCERCO_2009_000164.laz")
-colnames(las@data) # examine the column names
+colnames(las@data) # just examine the field names
 
-# read in a polygon representing the area of interest
+# read in a polygon representing the area of interest (e.g. shapefile)
 riparian_east <- st_read("data/riparian_east.shp")
 
 # Classify all isolated returns
 # ivf is one of the two LiDR noise segmentation algorithms (sor is the other)
-las = classify_noise(las, ivf(res = 3, n = 10))
+#las = classify_noise(las, ivf(res = 3, n = 10))
 # The classify_noise function sets Classification = 18 (LASNOISE = 18); filter it out
-las = filter_poi(las, Classification != LASNOISE)
+#las = filter_poi(las, Classification != LASNOISE)
 
-# open in lidRviewer
-view(las)
+plot(las) # plot it
+view(las) # or open it lidRviewer
 
-# crs and bounding boxes of LiDAR and Riparian East polygon are incompatible...
+# Clip out the riparian east area, but first ...
+# crs and bounding boxes of LiDAR and Riparian East polygon are incompatible
 # check crs
 st_crs(las)
 st_crs(riparian_east)
-# check bounding boxes
+# check the bounding boxes
 st_bbox(las)
 st_bbox(riparian_east)
 
@@ -50,12 +51,11 @@ st_crs(riparian_east)
 st_bbox(las)
 st_bbox(riparian_east)
 
-# the las can now be clipped to the area of interest
+# now the las can be clipped to the area of interest
 riparian_east <- clip_roi(las, riparian_east)
 
-# open both in lidRviewer
-view(las)
-view(riparian_east)
+plot(riparian_east) # plot it
+view(riparian_east) # or open in lidRviewer
 
 # now we can analyze the riparian east project area
 # derive a canopy height model (chm)
@@ -66,7 +66,7 @@ chm = dsm - dtm
 
 par(mfrow = c(1,3))
 plot(dsm)
-plot(dsm)
+plot(dtm)
 plot(chm)
 
 # estimate tree locations
@@ -86,7 +86,7 @@ treetops$Z
 nontrees$Z
 
 # estimate crowns
-plot(treetops$geometry, add = TRUE, pch = 16, cex = 0.2)
+plot(treetops$geometry, add = FALSE, pch = 16, cex = 0.2)
 crown_delineation_algorithm = dalponte2016(chm*1, treetops, th_tree = 2)
 crown_raster = crown_delineation_algorithm()
 
@@ -121,12 +121,15 @@ crowns_sf$crown_radius = sqrt(crowns_sf$crown_area/pi)
 # Make histograms of tree heights and crown area
 par(mfrow = c(1,2), mar=c(4,4,2,2)) # make a 1x3 panel plot
 ## hist(crowns_sf$crown_radius, main='Histogram of crown radius', xlab='Crown radius (m)')
-hist(treetops$Z, main = 'Histogram of tree height', xlab='Tree height (m)')
-ggplot(treetops, aes(x = Z)) + geom_histogram(color = "#999", fill = "#FFF", bins = 30, alpha = 0.5)
+hist(treetops$Z, main = 'Histogram of tree height', xlab='Tree height (f)')
+ggplot(treetops, aes(x = Z)) + geom_histogram(color = "#333", fill = "darkgreen", bins = 30, alpha = 0.5) + labs(x = 'heights') +
+  theme_minimal()
 
 # Make a pie chart of forested vs. non-forested area
 slices <- c(nrow(treetops), nrow(nontrees))
 labels <- c("forested","non-forested")
-pie(slices, labels = labels, main = "forested (>10ft) vs. non-forested (<10ft)",col = c("#999", "#F2F2F2"),border = "#999",cex = 1)
-plot(crowns_sf$crown_radius ~ treetops$Z, xlab='Tree height (m)',
+pie(slices, labels = labels, main = "forested (>10ft) vs. non-forested (<10ft)",col = c("#669900", "#F2F2F2"),border = "#999",cex = 1)
+
+# plot crowns to heights
+plot(crowns_sf$crown_radius ~ treetops$Z, xlab='Tree height (f)',
      ylab='Crown radius (m)', pch=16, col='#00000033')
